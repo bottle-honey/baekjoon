@@ -1,24 +1,24 @@
 # 숨바꼭질 3
 from queue import PriorityQueue
 n,k = map(int,input().split())
+MAX = 100001
+visited = [False] * MAX
 
 queue = PriorityQueue()
 queue.put((0,n))
 
 while queue:
-    count,cur_pos = queue.get()
-    if cur_pos-1 >=0:
-        if cur_pos+1 == k:
-            result = count+1
-            break
-        elif cur_pos-1 ==k:
-            result = count+1
-            break
-        queue.put((count+1,cur_pos+1))
-        queue.put((count+1,cur_pos-1))
-    if cur_pos*2 > 0 and cur_pos*2 < 2*k:
-        if cur_pos*2 == k:
-            result = count
-            break
-        queue.put((count,cur_pos*2))
+    count, cur_pos = queue.get()
+    
+    if cur_pos == k:
+        result = count
+        break
+    visited[cur_pos] = True
+    
+    cases = [(count,cur_pos*2),(count+1,cur_pos-1),(count+1,cur_pos+1)]
+    
+    for add,case in cases:
+        if case<=k+1 and not visited[case]:
+            queue.put((add,case))
+
 print(result)
