@@ -1,19 +1,6 @@
 #트리의 지름
 
-# def dfs(node,sum,result):
-#     node_inf = tree[node]
-#     visited[node] = True
-#     if result < sum:
-#         return sum
-#     #i : 인접 노드 / n : 간선 거리
-#     for i,n in enumerate(node_inf):
-#         if n != 0:
-#             if not visited[i]:
-#                 dfs(i,sum+n,sum+n)
-                
 
-
-n = int(input())
 def dfs(start_node,tree):
     stk = [(start_node,0)]
     result = 0
@@ -30,6 +17,9 @@ def dfs(start_node,tree):
             else:
                 result = max(result,cur_v)
     return result
+
+n = int(input())
+
 tree = [[0]*n for _ in range(n)]
 
 for i in range(n-1):
