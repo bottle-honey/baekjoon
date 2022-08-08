@@ -1,33 +1,28 @@
-#트리의 지름
-def dfs(start_node,tree):
-    stk = [(start_node,0)]
-    result = 0
-    visited = [False] * len(tree)
-    while stk:
-        node,cur_v = stk.pop()
-        visited[node] = True
-        #i : 인접 노드 / n : 간선 거리
-        for i,n in enumerate(tree[node]):
-            if n != 0:
-                if not visited[i]:
-                    stk.append((i,cur_v+n))
-            else:
-                result = max(result,cur_v)
-    return result
+import sys
+
+sys.setrecursionlimit(10**9)
 
 n = int(input())
+tree = [[]*(n+1) for _ in range(n+1)]
 
-tree = [[0]*n for _ in range(n)]
-
-result = 0
-
-for i in range(n-1):
+for _ in range(n-1):
     a,b,c = map(int,input().split())
-    tree[a-1][b-1] = c
-    tree[b-1][a-1] = c
+    tree[a].append((b,c))
+    tree[b].append((a,c))
 
 
-for i in range(n):
-    result = max(result,dfs(i,tree))
-    
-print(result)
+def dfs(start_node,sum_v):
+    for node,v in tree[start_node]:
+        if distances[node] == -1:
+            distances[node] = max(distances[node],sum_v+v)
+            dfs(node,sum_v+v)
+distances = [-1] * (n+1)
+distances[1]=0
+dfs(1,0)
+
+max_value_node = distances.index(max(distances))
+
+distances = [-1] * (n+1)
+distances[max_value_node] = 0
+dfs(max_value_node,0)
+print(max(distances))
