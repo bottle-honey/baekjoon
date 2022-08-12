@@ -1,9 +1,4 @@
 #공유기 설치
-from bisect import bisect_left, bisect_right
-def count_by_range(array,left_value,right_value):
-    left_index = bisect_left(array,left_value)
-    right_index = bisect_right(array,right_value)
-    return right_index-left_index
 n,c = map(int,input().split())
 
 homes = []
@@ -16,12 +11,17 @@ start = homes[0]
 end = homes[n-1]
 
 dist = (end-start)//(c-1)
-# 12489
-while start<=end:
-    if count_by_range(homes,start,start+dist+1)>1:
-        start = start+dist
-    else:
-        start = homes[0]
+able = 1
+
+while True:
+    start = homes[0]
+    for i in range(1,n):
+        if homes[i]-start >= dist:
+            able+=1
+            start = homes[i]
+    if able < c:
         dist-=1
+    else:
+        break
 
 print(dist)
