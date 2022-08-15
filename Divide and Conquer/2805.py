@@ -1,34 +1,29 @@
 # 나무 자르기
 import sys
+# 전역변수 : trees, m, result
+result = []
 input = sys.stdin.readline
+def binary_search(start,end):
+    if start>end:
+        return
+    sum = 0
+    mid = (start+end)//2
+    for tree in trees:
+        if tree > mid:
+            sum += tree - mid
+    if sum >= m:
+        result.append(mid)
+        binary_search(mid+1,end)
+    else:
+        binary_search(start,mid-1)
 
-n,m=map(int,input().split())
-
+n,m=map(int,input().split())        
 trees = list(map(int,input().split()))
-trees.sort()
 start = 0
 end = max(trees)
-result = 0
-while start<=end:
-    count = 0
-    
-    # mid : h : 절단기의 높이
-    mid = (start+end)//2
-    start_t = 0
-    end_t = n-1
-    min_idx = n-1
-    while start_t <= end_t:
-        mid_t = (start_t + end_t)//2
-        if trees[mid_t] >= mid:
-            min_idx = min(min_idx,mid_t)
-            start_t = mid_t+1
-        else:
-            end_t = mid_t-1
-    count = sum(trees[min_idx:]) - ((n-min_idx) * mid)
-    if count >= m:
-        result = max(result,mid)
-        start = mid + 1
-    else:
-        end = mid - 1
 
-print(result)
+binary_search(1,max(trees))
+if result:
+    print(max(result))
+else:
+    print(0)
