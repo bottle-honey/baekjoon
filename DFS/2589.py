@@ -15,21 +15,20 @@ result = 0
 for i in range(n):
     for j in range(m):
         if map[i][j] == 'L':
-            visited = [[False]*m for _ in range(n)]
-            board = [[0]*m for _ in range(n)]
-            #BFS
+            distance = [[-1]*m for _ in range(n)]
+            distance[i][j] = 0
             q = deque([(i,j)])
             while q:
                 x,y = q.popleft()
-                visited[x][y] = True
-                result = max(result,board[x][y])
                 for d in range(len(dx)):
-                    nx = x+dx[d]
-                    ny = y+dy[d]
-                    if nx <0 or nx >=n or ny <0 or ny >=m or map[nx][ny] != 'L' or visited[nx][ny]:
+                    nx = x + dx[d]
+                    ny = y + dy[d]
+                    if nx < 0 or nx >=n or ny <0 or ny >= m or map[nx][ny] != 'L':
                         continue
-                    q.append((nx,ny))
-                    board[nx][ny] = board[x][y]+1
-                    
-
+                    if distance[nx][ny] == -1:
+                        distance[nx][ny] = distance[x][y] + 1
+                        q.append((nx,ny))
+                        result = max(result,distance[nx][ny])
 print(result)
+
+            
