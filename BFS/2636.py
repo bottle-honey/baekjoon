@@ -11,59 +11,34 @@ dx = [-1,1,0,0]
 dy = [0,0,-1,1]
 result = 0
 time = 0
+cnt = 0
+for i in range(n):
+    cnt += board[i].count(1)
 def bfs(x,y):
     q = deque([(x,y)])
     visited = [[False]*m for _ in range(n)]
-    space = [(x,y)]
+    count = 0
     while q:
         x,y = q.popleft()
         visited[x][y] = True
         for d in range(4):
                 nx = x + dx[d]
                 ny = y + dy[d]
-                if nx==0 or nx ==n-1 or ny ==0 or ny ==m-1:
-                    return []
+                if nx<0 or nx >=n or ny < 0 or ny >=m:
+                    continue
                 if board[nx][ny] == 0 and not visited[nx][ny]:
                     q.append((nx,ny))
-    return space
+                elif board[nx][ny] == 1:
+                    board[nx][ny] = 0
+                    visited[nx][ny] = True
+                    count+=1
+    return count
+
 while True:
-    count = 0
-    remove = []
-    space_list = []
-    for i in range(1,n-1):
-        for j in range(1,m-1):
-            space_list= space_list + bfs(i,j)
-            
-    for x in range(1,n-1):
-        for y in range(1,m-1):
-            if board[x][y] == 1:
-                count +=1
-                air = 0
-                for d in range(4):
-                    nx = x + dx[d]
-                    ny = y + dy[d]
-                    if board[nx][ny] == 0:
-                        if (nx,ny) in space_list:
-                            continue                            
-                        else:
-                            air+=1
-                            break
-                if air>0:
-                    remove.append((x,y))
-    for x,y in remove:
-        board[x][y] = 0
-    # print(space_list)
-    # for i in range(n):
-    #     print(board[i])
-    
-    if count == 0:
+    time+=1
+    remove = bfs(1,1)
+    if cnt - remove == 0:
+        result = remove
         break
-    else:
-        result = count
-        for i in range(n):
-            for j in range(m):
-                if board[i][j] == 2:
-                    board[i][j] = 0
-        time+=1
-print(time)
-print(result)
+    cnt -= remove
+print(time,result)
