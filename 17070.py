@@ -17,20 +17,20 @@ def dfs(x,y,shape):
     if shape == 'h':
         if y+1 < n and house[x][y+1]=='0':
             dfs(x,y+1,'h')
-            if x+1<n and house[x+1][y+1]=='0':
-                dfs(x+1,y+1,'d')
+        if x+1 < n and y+1<n and house[x+1][y] == '0' and house[x+1][y+1]=='0' and house[x][y+1] == '0':
+            dfs(x+1,y+1,'d')
     elif shape == 'v':
         if x+1 <n and house[x+1][y]=='0':
             dfs(x+1,y,'v')
-            if y+1<n and house[x+1][y+1]=='0':
-                dfs(x+1,y+1,'d')
+        if x+1 < n and y+1<n and house[x+1][y] == '0' and house[x+1][y+1]=='0' and house[x][y+1] == '0':
+            dfs(x+1,y+1,'d')
     elif shape == 'd':
         if x+1 <n and house[x+1][y]=='0':
             dfs(x+1,y,'v')
-            if y+1<n and house[x+1][y+1]=='0':
-                dfs(x+1,y+1,'d')
-        elif y+1<n and house[x][y+1]=='0':
+        if y+1<n and house[x][y+1]=='0':
             dfs(x,y+1,'h')
+        if x+1<n and y+1<n and house[x+1][y] == '0' and house[x+1][y+1]=='0' and house[x][y+1] == '0':
+            dfs(x+1,y+1,'d')
 
 dfs(0,1,'h')
 
