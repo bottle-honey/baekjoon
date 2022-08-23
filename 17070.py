@@ -8,30 +8,28 @@ house = []
 for _ in range(n):
     house.append(list(input().split()))
 result = 0
-# shape = [h,v,d]
-def dfs(x,y,shape):
-    global result
-    if x==n-1 and y == n-1:
+stk = [(0,1,'h')]
+while stk:
+    x,y,shape = stk.pop()
+    if x==n-1 and y==n-1:
         result+=1
-        return
+        continue
     if shape == 'h':
         if y+1 < n and house[x][y+1]=='0':
-            dfs(x,y+1,'h')
+            stk.append((x,y+1,'h'))
         if x+1 < n and y+1<n and house[x+1][y] == '0' and house[x+1][y+1]=='0' and house[x][y+1] == '0':
-            dfs(x+1,y+1,'d')
+            stk.append((x+1,y+1,'d'))
     elif shape == 'v':
         if x+1 <n and house[x+1][y]=='0':
-            dfs(x+1,y,'v')
+            stk.append((x+1,y,'v'))
         if x+1 < n and y+1<n and house[x+1][y] == '0' and house[x+1][y+1]=='0' and house[x][y+1] == '0':
-            dfs(x+1,y+1,'d')
+            stk.append((x+1,y+1,'d'))
     elif shape == 'd':
         if x+1 <n and house[x+1][y]=='0':
-            dfs(x+1,y,'v')
+            stk.append((x+1,y,'v'))
         if y+1<n and house[x][y+1]=='0':
-            dfs(x,y+1,'h')
+            stk.append((x,y+1,'h'))
         if x+1<n and y+1<n and house[x+1][y] == '0' and house[x+1][y+1]=='0' and house[x][y+1] == '0':
-            dfs(x+1,y+1,'d')
-
-dfs(0,1,'h')
-
+            stk.append((x+1,y+1,'d'))
+    
 print(result)
