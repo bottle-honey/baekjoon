@@ -7,17 +7,15 @@ array = []
 for _  in range(n):
     array.append(int(input()))
 
-dp1 = [0] * n
-dp2 = [0] * n
+dp = [0] * n
 
 for i in range(n):
-    if i-2 >=0:
-        dp1[i] = max(dp1[i-2],dp2[i-2]) + array[i]
+    if i==0:
+        dp[i] = array[i]
+    elif i==1:
+        dp[i] = array[i] + dp[i-1]
+    elif i==2:
+        dp[i] = max(array[i-1],array[i-2]) + array[i]
     else:
-        dp1[i] = array[i]
-    if i-1 >=0 :
-        dp2[i] = dp1[i-1] + array[i]
-    else:
-        dp2[i] = array[i]
-
-print((max(max(dp1),max(dp2))))
+        dp[i] = max(dp[i-3] + array[i-1]+array[i], dp[i-2]+array[i],dp[i-1])
+print(dp[n-1])
