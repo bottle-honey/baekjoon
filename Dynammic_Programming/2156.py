@@ -3,19 +3,15 @@ input = sys.stdin.readline
 
 n = int(input())
 
-array = []
+array = [0]
 for _  in range(n):
     array.append(int(input()))
 
-dp = [0] * n
+dp = [0] 
 
-for i in range(n):
-    if i==0:
-        dp[i] = array[i]
-    elif i==1:
-        dp[i] = array[i] + dp[i-1]
-    elif i==2:
-        dp[i] = max(array[i-1],array[i-2]) + array[i]
+for i in range(1,n+1):
+    if i==1 or i==2:
+        dp.append(array[i] + array[i-1])
     else:
-        dp[i] = max(dp[i-3] + array[i-1]+array[i], dp[i-2]+array[i],dp[i-1])
-print(dp[n-1])
+        dp.append(max(dp[i-3] + array[i-1]+array[i], dp[i-2]+array[i],dp[i-1]))
+print(dp[n])
