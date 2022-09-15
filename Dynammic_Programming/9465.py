@@ -10,7 +10,7 @@ for _ in range(n):
         val.append(list(map(int,input().split())))
     dp = [[0]*N for _ in range(2)]
     for i in range(2):
-        for j in range(2):
+        for j in range(N):
             dp[i][j] = val[i][j]
     for j in range(N):
         for i in range(2):
